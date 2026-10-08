@@ -27,3 +27,5 @@ export const recordings = {
   iv_p203: { status: "ready", durationSec: 2160, sizeMb: 352, markers: [{ at: 60, label: "Introduction" }, { at: 720, label: "Underperformance scenario" }, { at: 1500, label: "Roadmap trade-offs" }] },
   iv_p201: { status: "ready", durationSec: 2470, sizeMb: 398, markers: [{ at: 60, label: "Introduction" }, { at: 900, label: "Event-driven design" }] },
 };
+
+export const aiInterviewer = { name: "Ava", title: "Intervia AI Interviewer", voice: "Warm · neutral accent" };

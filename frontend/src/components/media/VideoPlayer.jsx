@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Play, Pause, RotateCcw, RotateCw, Volume2, VolumeX, Maximize2, Circle } from "lucide-react";
 import { formatClock, initials } from "@/lib/format";
 import { cn } from "@/lib/utils";
+import { AiAvatar } from "@/components/live/AiAvatar";
+import { CandidateVideo } from "@/components/live/CandidateVideo";
 
 export function Waveform({ bars = 18, className, color = "bg-blue-400" }) {
   return (
@@ -51,7 +53,7 @@ export function VideoPlayer({ recording, candidateName, large = false, startAt =
   return (
     <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950" data-testid={large ? "video-player-large" : "video-player-inline"}>
       <div className={cn("relative aspect-video", !large && onExpand && "cursor-pointer")} onClick={!large && onExpand ? () => onExpand(time) : () => !live && setPlaying((p) => !p)} data-testid="video-stage">
-        <CandidateFeed name={candidateName} />
+        <CandidateVideo name={candidateName} compact />
         <div className="absolute left-3 top-3 flex items-center gap-2">
           {live ? (
             <span className="inline-flex items-center gap-1.5 rounded bg-rose-600 px-2 py-0.5 font-mono text-[10px] font-medium text-white"><Circle className="h-2 w-2 animate-pulse fill-white" /> LIVE · RECORDING</span>
@@ -60,9 +62,9 @@ export function VideoPlayer({ recording, candidateName, large = false, startAt =
           )}
           <span className="rounded bg-black/50 px-2 py-0.5 text-[11px] text-slate-200">{candidateName}</span>
         </div>
-        <div className="absolute right-3 top-3 w-[30%] min-w-[120px] max-w-[200px] rounded-lg border border-white/10 bg-slate-900/90 p-2.5">
+        <div className="absolute right-3 top-3 flex w-[24%] min-w-[96px] max-w-[170px] flex-col items-center rounded-lg border border-white/10 bg-slate-900/90 pb-1.5 pt-1" data-testid="recording-ai-pip">
+          <AiAvatar speaking={playing} size={64} testId="recording-ai-avatar" />
           <p className="font-mono text-[9px] uppercase tracking-widest text-slate-400">AI Interviewer</p>
-          <Waveform bars={14} className="mt-1.5 h-4" />
         </div>
         {marker && <span className="absolute bottom-3 left-3 rounded bg-black/60 px-2 py-1 text-[11px] text-slate-200">{marker.label}</span>}
         {!playing && !live && (

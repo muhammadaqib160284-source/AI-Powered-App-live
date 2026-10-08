@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Copy, Send, Radio, Clock3, Hourglass, ChevronDown, Play, Download, Sparkles, Bot, User } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Copy, Send, Radio, Clock3, Hourglass, ChevronDown, Play, Download, Sparkles, Bot, User, Video } from "lucide-react";
 import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -22,10 +23,17 @@ export function NotReady({ interview, what = "report" }) {
     expired: { icon: Clock3, title: "Interview link expired", description: `${interview.candidate.name} didn't start the interview before the link expired.` },
   };
   const s = map[interview.status];
+  const roomLabel = interview.status === "in_progress" ? "Open live interview" : interview.context === "individual" ? "Start interview" : "Preview candidate view";
+  const room = interview.status !== "expired" && (
+    <Button asChild size="sm" variant={interview.status === "in_progress" ? "default" : "outline"} data-testid="open-interview-room-button">
+      <Link to={`/interview/${interview.id}`}><Video className="mr-1.5 h-3.5 w-3.5" />{roomLabel}</Link>
+    </Button>
+  );
   return (
     <EmptyState icon={s.icon} title={s.title} description={s.description} testId={`not-ready-${interview.status}`}
-      action={interview.status !== "in_progress" && (
-        <div className="flex gap-2">
+      action={interview.status === "in_progress" ? room : (
+        <div className="flex flex-wrap justify-center gap-2">
+          {room}
           <Button variant="outline" size="sm" onClick={copy} data-testid="copy-interview-link-button"><Copy className="mr-1.5 h-3.5 w-3.5" /> Copy link</Button>
           <Button size="sm" onClick={() => toast.success(`Invitation re-sent to ${interview.candidate.email}`)} data-testid="resend-invite-button"><Send className="mr-1.5 h-3.5 w-3.5" /> Resend invite</Button>
         </div>

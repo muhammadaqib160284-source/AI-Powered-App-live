@@ -19,6 +19,7 @@ import WorkspacesPage from "@/pages/app/Workspaces";
 import MembersPage from "@/pages/app/Members";
 import InvitationsPage from "@/pages/app/Invitations";
 import SettingsPage from "@/pages/app/Settings";
+import LiveInterviewPage from "@/pages/LiveInterview";
 import { Logo } from "@/components/common/Logo";
 
 function ScrollToTop() {
@@ -50,6 +51,7 @@ export default function App() {
             <Route path="/signup" element={<SignupChooser />} />
             <Route path="/signup/individual" element={<SignupForm key="individual" type="individual" />} />
             <Route path="/signup/organization" element={<SignupForm key="organization" type="organization" />} />
+            <Route path="/interview/:id" element={<LiveInterviewPage />} />
             <Route path="/app" element={<AppLayout />}>
               <Route index element={<OverviewPage />} />
               <Route path="interviews" element={<InterviewsPage />} />
