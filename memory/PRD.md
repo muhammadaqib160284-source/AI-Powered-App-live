@@ -27,6 +27,14 @@ User choices: light app with dark landing hero; product name "Intervia"; default
 - Loading skeletons, empty, error, success, restricted states
 - Tested: 58/58 frontend checks passed (iteration_1)
 
+## Implemented (2026-10-08) — Two-sided AI video interview
+- New candidate-facing live room `/interview/:id` (outside app shell): equal candidate video tile (left) + animated emoji-style AI interviewer "Ava" (right), labels, status, speaking indicator, mic/camera indicators, duration, question progress, current question card, mic/camera/captions controls, end interview with confirmation, ended/submitted state
+- `components/live/`: AiAvatar (accepts `level` 0–1 for future audio sync), CandidateVideo (accepts `stream` MediaStream for future WebRTC), Tiles, InterviewRoom, useInterviewSimulation (local simulated loop)
+- `interviewsService.getLiveSession(id)` returns dummy interview + question plan
+- Entry points: "Open live interview" / "Preview candidate view" / "Start interview" buttons on not-ready interviews
+- Landing hero, How-it-works step 02 and recording player picture-in-picture now show video + AI avatar instead of audio waveform
+- Tested: iteration_2 100% pass
+
 ## Backlog
 - P0: Connect real backend APIs in services layer; real auth
 - P1: Real AI interviewer + candidate video, recording playback, resume storage

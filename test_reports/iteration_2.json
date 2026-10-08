@@ -1,0 +1,24 @@
+{
+  "summary": "Frontend-only testing of new two-sided AI video interview room, controls, dialogs, entry points, landing hero, mobile responsiveness, invalid route, and recording PIP. All acceptance criteria pass. One minor data-testid propagation bug on ai-speaking-indicator was found and fixed by the testing agent (Chip component wasn't forwarding non-className props).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Chip helper in /app/frontend/src/components/live/Tiles.jsx originally destructured only {children, className} and silently dropped data-testid (and any other props) applied to it. This caused data-testid='ai-speaking-indicator' to be missing from the DOM in the AI interviewer tile. Fixed by spreading ...rest onto the span. Recommend applying the same ...rest pattern to any future wrapper components to avoid silent prop drops.",
+  "AiAvatar uses setTimeout recursion with closure capture; cleanup only clears the latest timer. Minor leak risk on fast mount/unmount but acceptable for current simulated use.",
+  "useInterviewSimulation has no cleanup/reset when `running` toggles from false->true; fine for current flow (only toggled once at end) but worth noting if pause/resume added later."
+  ],
+  "updated_files": ["/app/frontend/src/components/live/Tiles.jsx"],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "test_credentials": "Prefilled demo login hannah.reyes@northwindlabs.io / demo-password (any non-empty values accepted).",
+  "seed_data_creation": "None (all data is dummy by design).",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Live room at /interview/iv_1044 fully verified: side-by-side candidate-panel (716x580) and ai-interviewer-panel at 1920w; data-speaking toggles on ai-avatar; ai-speaking-indicator reads 'Speaking'/'Listening'; room-duration increments; progress advances (Question 1→2 after ~16s); current-question-text types progressively; mic toggle -> mic-status-indicator data-on=false and candidate-panel-status 'Muted'; camera toggle -> candidate-camera-off visible; captions off -> 'Captions are hidden.'; end dialog cancel keeps room; confirm -> interview-ended with ended-duration and ended-back-button. Entry points: /app/interviews/iv_1044 shows 'Open live interview' open-interview-room-button that navigates to /interview/iv_1044; iv_1045 shows 'Preview candidate view'; individual-context iv_p205 shows 'Start interview'. /interview/nope -> error-state. Mobile 390px: panels stacked vertically (candidate y=125, ai y=410), no horizontal overflow, end-interview-button visible. Landing hero-interview-mockup contains candidate-panel, ai-interviewer-panel, ai-avatar, hero-current-question; how-step-02 visible. Recording tab of iv_1042 shows recording-ai-pip containing AiAvatar (testId overridden to 'recording-ai-avatar').",
+  "rca of the issue": "ai-speaking-indicator testid missing: In Tiles.jsx the local Chip component destructured only children and className, so additional props (including data-testid) passed to <Chip data-testid='ai-speaking-indicator'> were discarded before reaching the DOM. Fix: use ({children, className, ...rest}) and spread {...rest} onto the span. Verified post-fix: locator('[data-testid=\"ai-speaking-indicator\"]').text_content() returns 'Speaking'/'Listening' correctly."
+}

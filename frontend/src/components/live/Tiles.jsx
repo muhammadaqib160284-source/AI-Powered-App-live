@@ -3,7 +3,7 @@ import { AiAvatar, SpeakingDots } from "./AiAvatar";
 import { CandidateVideo } from "./CandidateVideo";
 import { cn } from "@/lib/utils";
 
-const Chip = ({ children, className }) => <span className={cn("inline-flex items-center gap-1.5 rounded-md bg-black/45 px-2 py-1 text-[11px] font-medium text-slate-100 backdrop-blur-sm", className)}>{children}</span>;
+const Chip = ({ children, className, ...rest }) => <span className={cn("inline-flex items-center gap-1.5 rounded-md bg-black/45 px-2 py-1 text-[11px] font-medium text-slate-100 backdrop-blur-sm", className)} {...rest}>{children}</span>;
 
 export const DeviceIndicator = ({ on, kind, small }) => {
   const Icon = kind === "mic" ? (on ? Mic : MicOff) : on ? Video : VideoOff;
